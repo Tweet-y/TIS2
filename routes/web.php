@@ -4,8 +4,17 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', function () {
-    return Inertia::render('welcome');
-})->name('home');
+    return Inertia::render('welcome', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+        'laravelVersion' => Application::VERSION,
+        'phpVersion' => PHP_VERSION,
+    ]);
+});
+
+Route::get('/empresa', function () {
+    return view('empresa');
+})->name('empresa');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('dashboard', function () {
